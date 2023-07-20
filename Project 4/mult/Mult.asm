@@ -10,3 +10,31 @@
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
 // Put your code here.
+
+//Intialise Variables
+@R2
+M=0
+
+//Main Loop
+(LOOP)
+@R1
+D=M
+@END
+D;JEQ
+@R0
+D=M
+@END
+D;JEQ
+@R2
+D=M+D
+@R2
+M=D
+@R1
+M=M-1
+@LOOP
+0;JMP 
+
+//Program End
+(END)
+@END
+0;JMP
