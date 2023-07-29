@@ -6,6 +6,7 @@
 AsmParser::AsmParser(std::string filePath)
 {
 	OpenFile(filePath);
+	SaveToFile_(filePath);
 }
 
 void AsmParser::OpenFile(std::string filePath)
@@ -57,39 +58,44 @@ void AsmParser::ParseAsm_()
 					if (preDefinedAddress != KMaps::predefined.end())
 					{
 						std::cout << "Found in predefined: " << std::endl;
-						AddParsedLine_(preDefinedAddress->second);
+						AddParsedLine_(new uint16_t( preDefinedAddress->second));
 					}
 					else
 					{
-						const auto address = addresses_.find(key);
+						auto address = addresses_.find(key);
 						if (address == addresses_.end())
 						{
 							if (Helpers::isNumeric(key))
 							{
 								std::cout << "Is numeric Addres" << std::endl;
-								AddParsedLine_(std::stoi(key));
+								AddParsedLine_(new uint16_t(std::stoi(key)));
 							}
 							else
 							{
-								const int value = 0;//(15 + addresses_.size());
+								uint16_t* value = new uint16_t(0);//(15 + addresses_.size());
 
 								AddAddress_(key, value);
 
 								std::cout << "new address added:" << std::endl;
-								AddParsedLine_(address->second);
+								AddParsedLine_(value);
 							}
+						}
+						else
+						{
+							std::cout << "Found in addresses: " << std::endl;
+							AddParsedLine_(address->second);
 						}
 					}
 				}
 				else if (whiteSpcae.find('(') != std::string::npos)
 				{
-					AddLable_(whiteSpcae, parsedLines_.size());
+					std::string removeBrackets = whiteSpcae.substr(0, whiteSpcae.size() - 1);
+					removeBrackets = removeBrackets.substr(1);
+					AddLable_(removeBrackets, new uint16_t(parsedLines_.size()));
 				}
 				else
 				{
-					std::string comp = "";
-					std::string dest = "";
-					std::string jump = "";
+					std::string comp, dest,jump;
 
 					const std::string::size_type semiColon = whiteSpcae.find(';');
 					const std::string::size_type equal = whiteSpcae.find('=');
@@ -105,11 +111,24 @@ void AsmParser::ParseAsm_()
 						dest = "null";
 					}
 
-					const uint16_t concatInt = (KMaps::comp.find(comp)->second | KMaps::dest.find(dest)->second | KMaps::jump.find(jump)->second);
+					auto destElement = KMaps::dest.find(dest);
+					uint16_t concatDest = 0;
+					if (dest != "null")
+					{
+						if (destElement == KMaps::dest.end())
+						{
+							for (auto letter : dest)
+							{
+								concatDest | KMaps::dest.find(std::string(1, letter))->second;
+							}
+						}
+						else
+						{
+							concatDest = destElement->second;
+						}
+					}
 
-					AddParsedLine_(concatInt);
-					//instruction binary = { {0b111},	{KMaps::comp.find(comp)->second},	{KMaps::dest.find(dest)->second}, {KMaps::jump.find(jump)->second} };
-					//std::cout << std::bitset<16>(KMaps::comp.find(comp)->second | KMaps::dest.find(dest)->second | KMaps::jump.find(jump)->second) << std::endl;
+					AddParsedLine_(new uint16_t(KMaps::comp.find(comp)->second | concatDest | KMaps::jump.find(jump)->second));
 				}
 			}
 		}
@@ -117,41 +136,69 @@ void AsmParser::ParseAsm_()
 	std::cout << "Closing File" << std::endl;
 	file_.close();
 
-
-
-
+	//Second pass for labels
+	TranslateLableAddresses_();
 	ShowAddress_();
-
-
 }
 
-void AsmParser::AddParsedLine_( uint16_t line)
+void AsmParser::AddParsedLine_(uint16_t* value)
 {
-	parsedLines_.push_back(line);
+	parsedLines_.push_back(std::move(value));
 }
 
-void AsmParser::AddLable_(std::string key, uint16_t value)
+void AsmParser::AddLable_(std::string key, uint16_t* value)
 {
-	lables_.insert(std::pair<std::string, uint16_t>(key, value));
+	lables_.insert(std::pair<std::string, uint16_t*>(key, value));
 }
 
-void AsmParser::AddAddress_(std::string key, uint16_t value)
+void AsmParser::AddAddress_(std::string key, uint16_t* value)
 {
-	addresses_.insert(std::pair<std::string, uint16_t>(key, value));
+	addresses_.insert(std::pair<std::string, uint16_t*>(key, value));
 }
 
 void AsmParser::ShowAddress_()
 {
-	for (auto line : parsedLines_)
+	for (const auto value : parsedLines_)
 	{
-		std::cout << std::bitset<16>(line) << std::endl;
+		std::cout << std::bitset<16>((*value)) << std::endl;
 	}
 }
 
 void AsmParser::TranslateLableAddresses_()
 {
+	for(auto& [lable, v] : lables_)
+	{
+		for (auto& [key, value] : addresses_)
+		{
+			if (key == lable)
+			{
+				(*value) = (*v);
+				v = std::move(value);
+				addresses_.erase(key);
+				break;
+			}
+		}
+	}
+	TranslateAddressIDs_();
+}
+
+void AsmParser::TranslateAddressIDs_()
+{
+	uint16_t index = 16;
+	for (auto& [key, value] : addresses_)
+	{
+		(*value) = index++;
+	}
+}
+
+void AsmParser::SaveToFile_(std::string filePath)
+{
+	std::ofstream hackFile(filePath+".hack");
+
 	for (auto line : parsedLines_)
 	{
-		std::cout << std::bitset<16>(line) << std::endl;
+		hackFile << std::bitset<16>(*line) << std::endl;
 	}
+
+	hackFile.close();
 }
