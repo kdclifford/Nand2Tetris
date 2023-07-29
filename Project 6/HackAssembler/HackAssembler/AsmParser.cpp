@@ -143,7 +143,7 @@ void AsmParser::ParseAsm_()
 
 void AsmParser::AddParsedLine_(uint16_t* value)
 {
-	parsedLines_.push_back(std::move(value));
+	parsedLines_.push_back(value);
 }
 
 void AsmParser::AddLable_(std::string key, uint16_t* value)
@@ -173,7 +173,7 @@ void AsmParser::TranslateLableAddresses_()
 			if (key == lable)
 			{
 				(*value) = (*v);
-				v = std::move(value);
+				v = value;
 				addresses_.erase(key);
 				break;
 			}
