@@ -136,11 +136,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AsmParser.cpp" />
+    <ClCompile Include="Assembler.cpp" />
     <ClCompile Include="HackAssembler.cpp" />
     <ClCompile Include="KMaps.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsmParser.h" />
+    <ClInclude Include="Assembler.h" />
     <ClInclude Include="HelperFuncs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

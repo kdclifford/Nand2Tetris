@@ -1,5 +1,7 @@
 #include <argparse.hpp>
+#include <bitset>
 #include "AsmParser.h"
+#include "Assembler.h"
 
 //Basic
 const std::string k_add = "../../add/Add.asm";
@@ -19,8 +21,8 @@ int main(int argc, char* argv[])
 	program.add_argument("-f", "--filePath")
 		.help("File path to asm file")
 		.nargs(1)
-		.required();
-		//.default_value(k_max);
+		//.required();
+		.default_value(k_max);
 
 	//Try pass args
 	try {
@@ -32,10 +34,39 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	//Get program arguments
+	// Get program arguments
 	const auto filePath = program.get<std::string>("--filePath");
 
-	AsmParser asmParser(filePath);
+	// Input File
+	std::ifstream file(filePath);
+
+	if (file.is_open()) {
+		std::cout << "File is open: " << filePath << std::endl;
+	}
+	else
+	{
+		throw std::invalid_argument("No File Found");
+	}
+
+	// Parse Input File
+	AsmParser* asmParser = new AsmParser();
+	auto parsedFile = asmParser->ParseFile(file);
+	file.close();
+	auto labels = asmParser->GetLables();
+
+	Assembler* assembler = new Assembler();
+	auto assembly = assembler->ParseFile(parsedFile, labels);
+
+	std::ofstream outputFile (filePath + ".hack");
+
+		std::cout << "Output File is open: " << filePath + ".hack" << std::endl;
+
+		for (auto line : assembly)
+		{
+			outputFile << std::bitset<16>(line) << std::endl;
+		}
+		outputFile.close();
+
 
 	return 0;
 }

@@ -24,12 +24,18 @@
     <ClCompile Include="AsmParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Assembler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsmParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HelperFuncs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Assembler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
