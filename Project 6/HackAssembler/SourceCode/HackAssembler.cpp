@@ -1,7 +1,8 @@
 #include <argparse.hpp>
 #include <bitset>
-#include "AsmParser.h"
+#include "Parser.h"
 #include "Assembler.h"
+#include "Encoder.h"
 
 //Basic
 const std::string k_add = "../../add/Add.asm";
@@ -48,25 +49,35 @@ int main(int argc, char* argv[])
 		throw std::invalid_argument("No File Found");
 	}
 
-	// Parse Input File
-	AsmParser* asmParser = new AsmParser();
-	auto parsedFile = asmParser->ParseFile(file);
-	file.close();
-	auto labels = asmParser->GetLables();
-
 	Assembler* assembler = new Assembler();
-	auto assembly = assembler->ParseFile(parsedFile, labels);
+
+	// Parse Input File
+	auto parserOutput = Parser::ParseFile(file);
+
+	std::string line;
+	while (std::getline(file, line))
+	{
+
+	}
+
+
+
+	file.close();
+
+	//Add Lables to symbol table
+	assembler->AddLables(parserOutput.second);
+
+	std::vector<uint16_t> assembly = Encoder::TranslateASM(parserOutput.first, assembler->symbolMap_);
 
 	std::ofstream outputFile (filePath + ".hack");
 
-		std::cout << "Output File is open: " << filePath + ".hack" << std::endl;
+	std::cout << "Output File is open: " << filePath + ".hack" << std::endl;
 
-		for (auto line : assembly)
-		{
-			outputFile << std::bitset<16>(line) << std::endl;
-		}
-		outputFile.close();
-
+	for (auto line : assembly)
+	{
+		outputFile << std::bitset<16>(line) << std::endl;
+	}
+	outputFile.close();
 
 	return 0;
 }

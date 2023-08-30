@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{3fc38503-09ab-459c-9e94-46c56a8cd9b3}</ProjectGuid>
-    <RootNamespace>HackAssembler</RootNamespace>
+    <ProjectGuid>{b3de9500-000f-4908-a019-392b0f3b08ca}</ProjectGuid>
+    <RootNamespace>UnitTests</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,10 +74,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\kdcli\Repos\Nand2Tetris\Project 6\HackAssembler\SourceCode;C:\Users\kdcli\Repos\Nand2Tetris\argparse\include\argparse;C:\Users\kdcli\Repos\Nand2Tetris\doctest\doctest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kdcli\Repos\Nand2Tetris\doctest\doctest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,10 +89,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\kdcli\Repos\Nand2Tetris\Project 6\HackAssembler\SourceCode;C:\Users\kdcli\Repos\Nand2Tetris\argparse\include\argparse;C:\Users\kdcli\Repos\Nand2Tetris\doctest\doctest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kdcli\Repos\Nand2Tetris\doctest\doctest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,10 +104,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\kdcli\Repos\Nand2Tetris\Project 6\HackAssembler\SourceCode;C:\Users\kdcli\Repos\Nand2Tetris\argparse\include\argparse;C:\Users\kdcli\Repos\Nand2Tetris\doctest\doctest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kdcli\Repos\Nand2Tetris\doctest\doctest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,10 +119,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\kdcli\Repos\Nand2Tetris\Project 6\HackAssembler\SourceCode;C:\Users\kdcli\Repos\Nand2Tetris\argparse\include\argparse;C:\Users\kdcli\Repos\Nand2Tetris\doctest\doctest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kdcli\Repos\Nand2Tetris\doctest\doctest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,16 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\SourceCode\Assembler.h" />
-    <ClInclude Include="..\SourceCode\Commands.h" />
-    <ClInclude Include="..\SourceCode\Encoder.h" />
-    <ClInclude Include="..\SourceCode\HelperFuncs.h" />
-    <ClInclude Include="..\SourceCode\Instruction.h" />
-    <ClInclude Include="..\SourceCode\Parser.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\SourceCode\Assembler.cpp" />
-    <ClCompile Include="..\SourceCode\HackAssembler.cpp" />
+    <ClCompile Include="ParserTests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

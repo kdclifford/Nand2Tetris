@@ -67,4 +67,10 @@ namespace Helpers
         return s;
     }
 
+    static inline int FindElementValue(std::string key, std::vector<std::pair<std::string, uint16_t>> map)
+    {
+        auto it = std::find_if(map.begin(), map.end(), [&key](const auto& name) { return name.first == key; });
+        return it != map.end() ? it->second : -1;
+    }
+
 }

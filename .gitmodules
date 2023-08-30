@@ -1,3 +1,6 @@
 [submodule "argparse"]
 	path = argparse
 	url = https://github.com/p-ranav/argparse.git
+[submodule "doctest"]
+	path = doctest
+	url = https://github.com/doctest/doctest.git
